@@ -1,0 +1,45 @@
+.task {
+  transform: translate(0, 0);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  border: 0;
+  border-radius: 500px;
+  background-color: rgba(0, 204, 255, 0.185);
+  cursor: move;
+}
+
+.task > div {
+  pointer-events: none;
+}
+
+.hide-children > div {
+  visibility: hidden;
+}
+
+.task-container {
+  position: relative;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: 500px;
+}
+
+.task-droppable {
+  /* border-style: dashed; */
+  border-color: lawngreen;
+}
+
+.task-draggable {
+  /* z-index: 1; */
+  position: absolute;
+  background-color: lightcoral;
+  display: flex;
+  width: 200px;
+  height: 200px;
+  /* padding: 2rem 2rem; */
+  border-radius: 500px;
+}
+
+.task-draggable-hidden {
+  display: none;
+}

@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  margin-top: 5rem;
+  justify-content: space-evenly;
+}
+
+/* SECTION */
+
+.section-container {
+  min-width: 400px;
+}
+
+.section-title {
+  padding: 1rem 1rem 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.section-title + hr {
+  border: 2px solid lawngreen;
+  border-radius: 500px;
+}
+
+.section-taskList > div {
+  margin-top: 1rem;
+}
+
+.section-addTask {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+.section-addTask:hover {
+  background-color: rgba(119, 136, 153, 0.411);
+}
+
+/* TASK */
+
+.task-container {
+  /* border: 1px solid lawngreen; */
+  background-color: rgb(9, 49, 63);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.task-title {
+  padding: 0.5rem;
+  border-bottom: 1px solid lawngreen;
+  cursor: move;
+}
+
+.task-todos {
+  padding: 1rem;
+}
+
+/* TODO */
+
+.todo {
+  transform: translate(0, 0);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  border: 0;
+  border-radius: 500px;
+  background-color: rgba(0, 204, 255, 0.185);
+  cursor: move;
+}
+
+.todo > div {
+  pointer-events: none;
+}
+
+.hide-children > div {
+  visibility: hidden;
+}
+
+.todo-container {
+  position: relative;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: 500px;
+}
+
+.todo-droppable {
+  /* border-style: dashed; */
+  border-color: lawngreen;
+}
+
+.todo-draggable {
+  /* z-index: 1; */
+  position: absolute;
+  background-color: lightcoral;
+  display: flex;
+  width: 200px;
+  height: 200px;
+  /* padding: 2rem 2rem; */
+  border-radius: 500px;
+}
+
+.todo-draggable-hidden {
+  display: none;
+}

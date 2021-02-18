@@ -1,0 +1,19 @@
+.section-container {
+  min-width: 400px;
+}
+
+.section-title {
+  padding: 1rem 1rem 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.section-title + hr {
+  border: 2px solid lawngreen;
+  background-color: lawngreen;
+  border-radius: 500px;
+}
+
+.section-taskList > div {
+  margin-top: 1rem;
+}

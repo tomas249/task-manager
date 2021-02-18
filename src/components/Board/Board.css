@@ -1,0 +1,21 @@
+.board-container {
+  /* border: 1px solid lawngreen; */
+  background-color: rgb(9, 49, 63);
+  border: none;
+  border-radius: 10px;
+  box-shadow: -4px 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.board-title {
+  padding: 0.5rem;
+  border-bottom: 1px solid lawngreen;
+  cursor: move;
+}
+
+.board-list {
+  padding: 1rem;
+}
+
+.board-list > div {
+  margin-top: 0.5rem 0;
+}
