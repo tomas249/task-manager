@@ -1,13 +1,15 @@
-import './Section.css';
+import "./Section.css";
 
-export default function Section({ data, ElementManager, ...props }) {
+export default function Section({ loadList, element, handleDelete, handleUpdate }) {
   return (
-    <div className="section-container" key={data.id}>
-      <div className="section-title">{data.title}</div>
-      <hr />
-      <div className="section-taskList">
-        {ElementManager({ list: data.list, ...props })}
+    <div className="section-container">
+      <div className="section-title">
+        {element.title}
+        <button onClick={handleDelete}>Delete</button>
+        <button onClick={() => handleUpdate(element)}>Update</button>
       </div>
+      <hr />
+      <div className="section-taskList">{loadList()}</div>
     </div>
   );
 }

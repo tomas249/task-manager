@@ -1,3 +1,19 @@
 
 
-  
+    list, setList
+    tempList, setTempList
+    transferedData, setTransferedData
+
+
+    onDragStart:
+        setTempList(indList)
+        setTransferedData(indEl)
+    
+    onDrop:
+        getTransferedData()
+        add -> setTempList
+
+    onDragEnd:
+        const list = getTempList()
+        rmv from list
+        setList(newList)

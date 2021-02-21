@@ -1,12 +1,10 @@
-import './App.css';
-import MainPage from '../MainPage';
-
-import mockData from '../../mock/mock';
+import "./App.css";
+import MainPage from "../MainPage";
 
 function App() {
   return (
     <div className="App">
-      <MainPage data={mockData} />
+      <MainPage />
     </div>
   );
 }

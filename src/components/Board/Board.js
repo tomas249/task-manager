@@ -1,12 +1,14 @@
-import './Board.css';
+import "./Board.css";
 
-export default function Board({ data, ElementManager, ...props }) {
+export default function Board({ loadList, element, handleDelete, handleUpdate }) {
   return (
-    <div className="board-container" key={data.id}>
-      <div className="board-title">{data.title}</div>
-      <div className="board-list">
-        {ElementManager({ list: data.list, ...props })}
+    <div draggable className="board-container" key={element.id}>
+      <div className="board-title">
+        {element.title}
+        <button onClick={handleDelete}>Delete</button>
+        <button onClick={() => handleUpdate(element)}>Update</button>
       </div>
+      <div className="board-list">{loadList()}</div>
     </div>
   );
 }

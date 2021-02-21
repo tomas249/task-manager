@@ -1,44 +1,68 @@
-import NewPlaceholder from './NewPlaceholder';
-import element from './AvailableElements';
+import NewPlaceholder from "./NewPlaceholder";
+import { Element } from "./AvailableElements";
 
-const withDrag = (Element) => {
-  return (props) => Element({ ...props, seudo: 'tooomas' });
-};
+export function ListManager({ elementId, newPhConfig, ...props }) {
+  const list = props.list || props.getElement(elementId).list;
 
-function ElementManager({ list, setList, newPhConfig, ...props }) {
-  // (i) list = [element, element, element]
-  // (i) elementList: {id, type, title, list: THIS LIST}
-
-  const addElToLIst = (element) => {};
-
-  const modElList = (element) => (newElList) => {
-    const modList = list.map((el) =>
-      el.id !== element.id ? el : { ...element, list: newElList }
-    );
-    setList(modList);
+  const addElement = (element) => {
+    props.editElement(elementId, "add")(-1, element);
+    // props.editElement("1613910363562", "move")("1613910353842", 0, "1613910371125");
   };
 
-  const pushElToList = (element) => setList([...list, element]);
+  const moveElement = (opId, cId) => {
+    props.editElement(opId, "move")(elementId, -1, cId);
+  };
 
-  const delElFromList = (elIdx) => () =>
-    setList(list.filter((el, idx) => idx !== elIdx));
-
-  return (
+  return () => (
     <>
-      {list.map((el, idx) => (
-        <div key={el.id}>
-          {withDrag(element[el.type])({
-            ...props,
-            data: el,
-            ElementManager,
-            setList: modElList(el),
-            deleteElement: delElFromList(idx),
-          })}
-        </div>
-      ))}
-      <NewPlaceholder addElement={pushElToList} />
+      {list.map((elId, idx) => ElementManager({ elementId: elId, pId: elementId, idx, ...props }))}
+      <NewPlaceholder config={newPhConfig} addElement={addElement} moveElement={moveElement} />
     </>
   );
 }
 
-export default ElementManager;
+//ListManager
+export function ElementManager({ elementId, pId, idx, getElement, editElement, ...props }) {
+  const element = getElement(elementId);
+
+  const handleUpdate = (element) => {
+    const title = prompt("Set new title:");
+    if (!title) return;
+    editElement(elementId, "update")({ ...element, title });
+  };
+
+  const handleDelete = () => {
+    editElement(pId, "delete")(elementId);
+  };
+
+  const loadList = ListManager({
+    ...props,
+    elementId,
+    list: element.list,
+    getElement,
+    editElement,
+  });
+
+  // DRAG
+
+  const allowDrop = (ev) => {
+    ev.preventDefault();
+  };
+
+  const onDragStart = (ev) => {
+    ev.stopPropagation();
+    ev.dataTransfer.setData("text", `${pId}-${elementId}`);
+  };
+
+  const onDrop = (ev) => {
+    ev.stopPropagation();
+    const [opId, cId] = ev.dataTransfer.getData("text").split("-");
+    editElement(opId, "move")(pId, idx, cId);
+  };
+
+  return (
+    <div draggable key={elementId} onDragOver={allowDrop} onDragStart={onDragStart} onDrop={onDrop}>
+      {Element[element.type]({ ...props, loadList, element, handleUpdate, handleDelete })}
+    </div>
+  );
+}

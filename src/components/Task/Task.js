@@ -1,12 +1,13 @@
-import './Task.css';
+import "./Task.css";
 
-export default function Task({ data, deleteElement, ...props }) {
+export default function Task({ element, handleDelete, handleUpdate }) {
   return (
-    <div className="task-container" key={data.id}>
+    <div className="task-container" draggable>
       <div className="task">
-        <div>{data.title}</div>
-        <div>{data.endDate}</div>
-        <button onClick={deleteElement}>Delete</button>
+        <div>{element.title}</div>
+        <div>{element.endDate}</div>
+        <button onClick={handleDelete}>Delete</button>
+        <button onClick={() => handleUpdate(element)}>Update</button>
       </div>
     </div>
   );
