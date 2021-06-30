@@ -1,6 +1,7 @@
+import "./NewPlaceholder.css";
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { availableTypes } from "../AvailableElements";
+import { availableTypes, newElementForm } from "../AvailableElements";
 
 const customStyles = {
   content: {
@@ -22,18 +23,37 @@ const customStyles = {
 Modal.setAppElement("#root");
 function NewPlaceholder({ config, addElement, moveElement }) {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [elType, setElType] = useState(false);
+  const [formData, setFormData] = useState({});
 
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    setIsOpen(false);
+    setElType(false);
+  };
   const openModal = () => setIsOpen(true);
 
   const handleAddElement = (ev) => {
     ev.preventDefault();
     closeModal();
-    const type = ev.target.type.value;
-    const title = ev.target.title.value;
-    const id = String(Date.now());
-    const list = [];
-    addElement({ id, type, title, list });
+    const newEl = {
+      ...formData,
+      type: elType,
+      id: String(Date.now()),
+      list: [],
+    };
+    addElement(newEl);
+    setFormData({});
+  };
+
+  const handleDataChange = (ev) => {
+    ev.preventDefault();
+    setFormData({ ...formData, [ev.target.name]: ev.target.value.trim() });
+  };
+
+  const handleTypeChange = (ev) => {
+    ev.preventDefault();
+    setElType(ev.target.value);
+    setFormData({ ...formData, type: ev.target.value });
   };
 
   const allowDrop = (ev) => {
@@ -47,34 +67,50 @@ function NewPlaceholder({ config, addElement, moveElement }) {
   };
 
   return (
-    <div>
+    <>
       <Modal isOpen={modalIsOpen} style={customStyles} onRequestClose={closeModal}>
-        <form onSubmit={handleAddElement}>
-          <div style={{ fontWeight: "bold", marginBottom: "5px" }}>Choose a type:</div>
-          {availableTypes.map((type) => (
-            <div key={type} style={{ padding: "0.5rem" }}>
-              <input type="radio" id={type} value={type} name="type" required />
-              <label htmlFor={type}>{type}</label>
+        {!elType && (
+          <>
+            <div style={{ fontWeight: "bold", marginBottom: "5px" }}>Choose a type:</div>
+            {availableTypes.map((type) => (
+              <div key={type} style={{ padding: "0.5rem" }} onChange={handleTypeChange}>
+                <input type="radio" id={type} value={type} name="type" required />
+                <label htmlFor={type}>{type}</label>
+              </div>
+            ))}
+          </>
+        )}
+        {elType && (
+          <form onSubmit={handleAddElement}>
+            <h3>{elType}</h3>
+            <hr />
+            {newElementForm[elType].map((formEl, idx) => (
+              <div className="form-element" key={formEl.name}>
+                <label htmlFor={formEl.name}>{formEl.label}</label>
+                <br />
+                <input
+                  type={formEl.type}
+                  id={formEl.name}
+                  name={formEl.name}
+                  required={formEl.required}
+                  onChange={handleDataChange}
+                  autoFocus={!idx}
+                  autoComplete="off"
+                />
+              </div>
+            ))}
+            <div style={{ marginTop: "2rem", width: "100%" }}>
+              <button style={{ width: "100%", height: "3rem" }} type="submit">
+                ADD
+              </button>
             </div>
-          ))}
-          <div style={{ fontWeight: "bold", margin: "2rem 0 5px 0" }}>Title:</div>
-          <input
-            style={{ fontSize: "1.3rem", padding: "0.5rem" }}
-            type="text"
-            name="title"
-            required
-          />
-          <div style={{ marginTop: "2rem", width: "100%" }}>
-            <button style={{ width: "100%", height: "3rem" }} type="submit">
-              ADD
-            </button>
-          </div>
-        </form>
+          </form>
+        )}
       </Modal>
-      <div onClick={openModal} onDragOver={allowDrop} onDrop={onDrop}>
+      <div className="placeholder" onClick={openModal} onDragOver={allowDrop} onDrop={onDrop}>
         <span>+</span>
       </div>
-    </div>
+    </>
   );
 }
 

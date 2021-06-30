@@ -25,10 +25,12 @@ export function ListManager({ elementId, newPhConfig, ...props }) {
 export function ElementManager({ elementId, pId, idx, getElement, editElement, ...props }) {
   const element = getElement(elementId);
 
-  const handleUpdate = (element) => {
-    const title = prompt("Set new title:");
-    if (!title) return;
-    editElement(elementId, "update")({ ...element, title });
+  const handleUpdate = (toUpdate) => {
+    const changes = Object.entries(toUpdate).reduce((acc, [key, value]) => {
+      const newValue = prompt(`New ${key}:`, value) || value;
+      return { ...acc, [key]: newValue };
+    }, {});
+    editElement(elementId, "update")(changes);
   };
 
   const handleDelete = () => {
@@ -61,7 +63,7 @@ export function ElementManager({ elementId, pId, idx, getElement, editElement, .
   };
 
   return (
-    <div draggable key={elementId} onDragOver={allowDrop} onDragStart={onDragStart} onDrop={onDrop}>
+    <div key={elementId} onDragOver={allowDrop} onDragStart={onDragStart} onDrop={onDrop}>
       {Element[element.type]({ ...props, loadList, element, handleUpdate, handleDelete })}
     </div>
   );

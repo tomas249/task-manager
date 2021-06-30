@@ -6,6 +6,7 @@
   padding: 1rem 1rem 0;
   font-size: 2rem;
   font-weight: bold;
+  position: relative;
 }
 
 .section-title + hr {

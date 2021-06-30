@@ -54,17 +54,15 @@ function MainPage() {
     editElement,
   });
 
-  return <div className="container">{loadList()}</div>;
-
-  // return (
-  //   <>
-  //     <div className="container">{loadList()}</div>
-  //     <hr style={{ marginTop: "5rem" }} />
-  //     <button onClick={saveElementsLocally}>Save</button>
-  //     <button onClick={resetElementsLocally}>Reset</button>
-  //     <pre>{JSON.stringify(elementList, undefined, 2)}</pre>
-  //   </>
-  // );
+  return (
+    <>
+      <div className="container">{loadList()}</div>
+      <hr style={{ marginTop: "5rem" }} />
+      <button onClick={saveElementsLocally}>Save</button>
+      <button onClick={resetElementsLocally}>Reset</button>
+      {/* <pre>{JSON.stringify(elementList, undefined, 2)}</pre> */}
+    </>
+  );
 }
 
 export default MainPage;
